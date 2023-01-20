@@ -6,4 +6,4 @@ USER
 USER_SESSION
 | id | user | agent | timestamp | $ |
 |:--:|:----:|:-----:|:---------:|:-:|
-| auto-generated | USER.ID | string | { create, active } | { version: **1**, partition } |
+| auto-generated | USER.ID | string | { create, active } | { version: **1** } |
