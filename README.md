@@ -1,9 +1,16 @@
-USER
+**USER:**
 | id | name | image | email | password | totp | timestamp | $ |
 |:--:|:----:|:-----:|:-----:|:--------:|:----:|:---------:|:-:|
 | auto-generated | { first, last } | { ID, url } | string | string | string | { create, update } | { version: **1**, partition: **1 to 100** } |
 
-USER_SESSION
-| id | user | agent | timestamp | $ |
-|:--:|:----:|:-----:|:---------:|:-:|
-| auto-generated | USER.ID | string | { create, active } | { version: **1** } |
+<br/>
+
+**USER_SESSION:**
+| id | user | device | location | status | timestamp | $ |
+|:--:|:----:|:-----:|:--------:|:------:|:---------:|:-:|
+| auto-generated | USER.ID | { userAgent } | TBD | string | { create, login, logout, lastActive } | { version: **1** } |
+
+- status:
+  - active → loggedin → loggedout
+  - active → blocked
+  - loggedin → blocked
