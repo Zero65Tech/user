@@ -12,5 +12,5 @@
 
 - status:
   - active → loggedin → loggedout
-  - active → blocked
-  - loggedin → blocked
+  - active → expired, blocked
+  - loggedin → expired, blocked
