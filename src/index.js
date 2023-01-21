@@ -17,9 +17,11 @@ app.get('/session', async (req, res) => {
   let sessionRef = Firestore.USER_SESSION.doc(req.body.sessionId);
   let session = (await sessionRef.get()).data();
 
+  session.id = req.body.sessionId;
+
   delete session.$;
 
-  res.send({ id:req.body.sessionId, ...session });
+  res.send(session);
 
 });
 
@@ -47,7 +49,7 @@ app.post('/session', async (req, res) => {
 
   delete session.$;
 
-  res.send({ id: session.id });
+  res.send(session);
 
 });
 
