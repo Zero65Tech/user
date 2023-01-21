@@ -42,7 +42,7 @@ app.post('/session', async (req, res) => {
 
   delete session.$;
 
-  res.send(session);
+  res.send({ id: session.id });
 
 });
 
