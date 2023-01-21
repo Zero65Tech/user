@@ -7,6 +7,11 @@ const OAuth2Client  = new (require('google-auth-library').OAuth2Client)();
 
 
 
+// Parse JSON bodies
+app.use(express.json());
+
+
+
 app.get('/session', async (req, res) => {
 
   let sessionRef = Firestore.USER_SESSION.doc(req.body.sessionId);
