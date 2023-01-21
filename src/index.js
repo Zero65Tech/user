@@ -14,10 +14,10 @@ app.use(express.json());
 
 app.get('/session', async (req, res) => {
 
-  let sessionRef = Firestore.USER_SESSION.doc(req.body.sessionId);
+  let sessionRef = Firestore.USER_SESSION.doc(req.query.id);
   let session = (await sessionRef.get()).data();
 
-  session.id = req.body.sessionId;
+  session.id = req.query.id;
 
   delete session.$;
 
