@@ -12,6 +12,21 @@ app.use(express.json());
 
 
 
+app.get('/', async (req, res) => {
+
+  let userRef = Firestore.USER.doc(req.query.id);
+  let user = (await userRef.get()).data();
+
+  user.id = req.query.id;
+
+  delete user.$;
+
+  res.send(user);
+
+});
+
+
+
 app.get('/session', async (req, res) => {
 
   let sessionRef = Firestore.USER_SESSION.doc(req.query.id);
