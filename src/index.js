@@ -47,7 +47,7 @@ app.post('/session', async (req, res) => {
     device: {
       userAgent: req.body.userAgent
     },
-    location: null,
+    location: req.body.location || null,
     status: 'active',
     timestamp: {
       create     : Date.now(),
@@ -65,6 +65,20 @@ app.post('/session', async (req, res) => {
   delete session.$;
 
   res.send(session);
+
+});
+
+app.post('/session/ping', async (req, res) => {
+
+  let sessionRef = Firestore.USER_SESSION.doc(req.body.id);
+
+  await sessionRef.update({
+    'device.userAgent'     : req.body.userAgent,
+    location               : req.body.location,
+    'timestamp.lastActive' : Date.now()
+  });
+
+  res.sendStatus(200);
 
 });
 
@@ -145,13 +159,10 @@ app.post('/google-login', async (req, res) => {
   // Update USER_SESSION doc
   
   let sessionRef = Firestore.USER_SESSION.doc(req.body.sessionId);
-
   let session = (await sessionRef.get()).data();
-  if(session.user != null || session.status != 'active')
-    return res.sendStatus(400);
 
   await sessionRef.update({
-    'user.id'              : user.id,
+    user                   : { id: user.id },
     status                 : 'loggedin',
     'timestamp.login'      : Date.now(),
     'timestamp.lastActive' : Date.now()
