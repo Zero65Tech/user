@@ -8,7 +8,7 @@
 **USER_SESSION:**
 | id | user | device | location | status | timestamp | $ |
 |:--:|:----:|:-----:|:--------:|:------:|:---------:|:-:|
-| auto-generated | USER.ID | { userAgent } | TBD | string | { create, login, logout, lastActive } | { version: **1** } |
+| auto-generated | { id } | { userAgent } | TBD | string | { create, login, logout, lastActive } | { version: **1** } |
 
 - status:
   - active → loggedin → loggedout

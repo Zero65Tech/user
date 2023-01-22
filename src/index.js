@@ -151,7 +151,7 @@ app.post('/google-login', async (req, res) => {
     return res.sendStatus(400);
 
   await sessionRef.update({
-    user                   : user.id,
+    'user.id'              : user.id,
     status                 : 'loggedin',
     'timestamp.login'      : Date.now(),
     'timestamp.lastActive' : Date.now()
@@ -177,7 +177,6 @@ app.post('/logout', async (req, res) => {
     return res.sendStatus(400);
 
   await sessionRef.update({
-    user                   : user.id,
     status                 : 'loggedout',
     'timestamp.logout'     : Date.now(),
     'timestamp.lastActive' : Date.now()
