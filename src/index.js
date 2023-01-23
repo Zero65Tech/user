@@ -74,7 +74,7 @@ app.post('/session/ping', async (req, res) => {
 
   await sessionRef.update({
     'device.userAgent'     : req.body.userAgent,
-    location               : req.body.location,
+    location               : req.body.location || null,
     'timestamp.lastActive' : Date.now()
   });
 
