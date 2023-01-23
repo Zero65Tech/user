@@ -19,6 +19,8 @@ app.get('/', async (req, res) => {
 
   user.id = req.query.id;
 
+  delete user.password;
+  delete user.totp;
   delete user.$;
 
   res.send(user);
@@ -72,11 +74,15 @@ app.post('/session/ping', async (req, res) => {
 
   let sessionRef = Firestore.USER_SESSION.doc(req.body.id);
 
-  await sessionRef.update({
+  let session = {
     'device.userAgent'     : req.body.userAgent,
-    location               : req.body.location || null,
     'timestamp.lastActive' : Date.now()
-  });
+  };
+
+  if(req.body.location)
+    session.location = req.body.location;
+
+  await sessionRef.update(session);
 
   res.sendStatus(200);
 
@@ -159,7 +165,6 @@ app.post('/google-login', async (req, res) => {
   // Update USER_SESSION doc
   
   let sessionRef = Firestore.USER_SESSION.doc(req.body.sessionId);
-  let session = (await sessionRef.get()).data();
 
   await sessionRef.update({
     user                   : { id: user.id },
@@ -169,23 +174,13 @@ app.post('/google-login', async (req, res) => {
   });
 
 
-  // Create and send response
-
-  delete user.password;
-  delete user.totp;
-  delete user.$;
-
-  res.send(user);
+  res.sendStatus(200);
 
 });
 
 app.post('/logout', async (req, res) => {
 
   let sessionRef = Firestore.USER_SESSION.doc(req.body.sessionId);
-
-  let session = (await sessionRef.get()).data();
-  if(session.status != 'loggedin')
-    return res.sendStatus(400);
 
   await sessionRef.update({
     status                 : 'loggedout',
