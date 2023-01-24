@@ -129,8 +129,8 @@ app.post('/google-login', async (req, res) => {
   let user = users[0];
   if(!user) {
 
-    let firstName = payload.given_name;
-    let lastName  = payload.family_name;
+    let firstName = payload.given_name || null;
+    let lastName  = payload.family_name || null;
     let imageUrl  = payload.picture;
 
     if(imageUrl.endsWith('=s96-c'))
