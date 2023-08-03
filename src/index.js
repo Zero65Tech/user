@@ -31,9 +31,9 @@ app.get('/', async (req, res) => {
 
 app.get('/session', async (req, res) => {
 
-  let sessionRef = Firestore.USER_SESSION.doc(req.query.id);
-  let session = (await sessionRef.get()).data();
-
+  let doc = await Firestore.USER_SESSION.doc(req.query.id).get();
+  let session = doc.exists ? doc.data() : { status: 'expired '};
+  
   session.id = req.query.id;
 
   delete session.$;
